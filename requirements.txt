@@ -1,0 +1,12 @@
+streamlit
+tensorflow
+scikit-learn
+numpy
+pandas
+nltk
+pdfplumber
+google-generativeai
+langchain
+langchain-google-genai
+reportlab
+python-dotenv
