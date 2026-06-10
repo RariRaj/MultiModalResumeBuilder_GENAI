@@ -1370,12 +1370,18 @@ elif st.session_state.stage == "results":
             # Improvements
             improvements = score_data.get("top_improvements", [])
             if improvements:
-                st.markdown("#### 💡 Top Improvements")
+                # Using safe unicode escape for lightbulb emoji to pass ASCII compiler
+                st.markdown("#### \U0001f4a1 Top Improvements")
                 for tip in improvements:
                     st.markdown(
-                        f"<div style='background:#f0f7ff;border-left:"
-                        f"4px solid #0f3460;padding:8px 12px;"
-                        f"border-radius:0 8px 8px 0;margin-bottom:6px'>"
+                        f"<div style='background-color: #f0f7ff; "
+                        f"color: #1a1a2e; "
+                        f"border-left: 4px solid #0f3460; "
+                        f"padding: 10px 14px; "
+                        f"border-radius: 0px 8px 8px 0px; "
+                        f"margin-bottom: 8px; "
+                        f"font-size: 14px; "
+                        f"line-height: 1.4;'>"
                         f"{tip}</div>",
                         unsafe_allow_html=True,
                     )
