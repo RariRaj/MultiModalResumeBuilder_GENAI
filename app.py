@@ -74,8 +74,7 @@ def setup_gemini():
     return genai.GenerativeModel("gemini-2.5-flash")
 
 
-def chat_with_memory(gemini_model, user_message: str,
-                     chat_history: list) -> str:
+def chat_with_memory(gemini_model, user_message: str, chat_history: list) -> str:
     """
     Send a message to Gemini with full conversation history.
 
@@ -98,7 +97,7 @@ def chat_with_memory(gemini_model, user_message: str,
     # Format: "User: ... \nAssistant: ... \nUser: ..."
     history_text = ""
     for msg in chat_history:
-        role    = "User" if msg["role"] == "user" else "Assistant"
+        role = "User" if msg["role"] == "user" else "Assistant"
         content = msg["content"]
         history_text += f"{role}: {content}\n\n"
 
@@ -115,6 +114,24 @@ Previous conversation:
 {history_text}
 
 User: {user_message}
+Assistant:"""
+
+    # Robust generation loop with retry logic
+    for attempt in range(3):
+        try:
+            response = gemini_model.generate_content(full_prompt)
+            return response.text.strip()
+
+        except Exception as e:
+            if "429" in str(e):
+                wait = 5 * (attempt + 1)
+                st.warning(f"⏳ Rate limit hit. Retrying in {wait}s...")
+                time.sleep(wait)
+            else:
+                st.error(f"❌ Gemini memory chat error: {e}")
+                return "I ran into an issue processing that answer. Could you please try repeating it?"
+
+    return "The assistant is temporarily offline due to network congestion. Please try again in a moment."
 
 
 # ══════════════════════════════════════════════════════════════
@@ -998,12 +1015,13 @@ if st.session_state.stage == "start":
     with col2:
         st.subheader("🚀 Start building")
         st.markdown(
-        "The assistant will ask you about:\n"
+            "The assistant will ask you about:\n"
             "- Personal details and contact info\n"
             "- Work experience and achievements\n"
             "- Education and skills\n"
             "- Projects and certifications\n"
-            "- Target role and job description")
+            "- Target role and job description"
+        )
 
         if st.button(
             "💬 Start Chat Interview", type="primary", use_container_width=True
