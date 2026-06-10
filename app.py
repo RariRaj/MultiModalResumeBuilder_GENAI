@@ -10,7 +10,7 @@
 #    PDF generation  → ReportLab
 #    Optional input  → pdfplumber (existing resume upload)
 # ═══════════════════════════════════════════════════════════════
-
+# -*- coding: utf-8 -*-
 import os
 import re
 import json
