@@ -934,14 +934,11 @@ gemini_model = setup_gemini()
 with st.sidebar:
     st.header("📝 AI Resume Builder")
     st.markdown("""
-    **How it works:**
-
-    1. [Chat] Chat with the AI assistant
-    2. Answer 10 guided questions
-    3. 🤖 Gemini writes your resume
-    4. 🧠 BiLSTM verifies job category
-    5. 📊 Get score across 10 criteria
-    6. 📥 Download polished PDF
+    st.write("### How It Works:")
+st.write("1. \U0001F4AC Chat with the AI assistant")
+st.write("2. \U0001F4CE Upload your existing assets or profile data")
+st.write("3. \U0001F916 Gemini writes your resume")
+st.write("4. \U0001F4C4 Download your professional ReportLab PDF")
 
     ---
     **Tech Stack:**
