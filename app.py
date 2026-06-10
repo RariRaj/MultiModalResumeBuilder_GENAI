@@ -936,7 +936,7 @@ with st.sidebar:
     st.markdown("""
     **How it works:**
 
-    1. 💬 Chat with the AI assistant
+    1. [Chat] Chat with the AI assistant
     2. Answer 10 guided questions
     3. 🤖 Gemini writes your resume
     4. 🧠 BiLSTM verifies job category
@@ -1011,7 +1011,7 @@ if st.session_state.stage == "start":
         """)
 
         if st.button(
-            "💬 Start Chat Interview", type="primary", use_container_width=True
+            "[Chat] Start Chat Interview", type="primary", use_container_width=True
         ):
             # Setup LangChain conversation chain
             chain = setup_langchain_chat()
@@ -1465,7 +1465,7 @@ elif st.session_state.stage == "results":
     # Footer
     st.divider()
     st.caption(
-        "💬 LangChain conversation memory  |  "
+        "[Chat] LangChain conversation memory  |  "
         "🤖 Google Gemini 2.5 Flash  |  "
         "🧠 BiLSTM + Custom Attention  |  "
         "📄 ReportLab PDF  |  "
