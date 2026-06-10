@@ -997,14 +997,13 @@ if st.session_state.stage == "start":
 
     with col2:
         st.subheader("🚀 Start building")
-        st.markdown("""
-        The assistant will ask you about:
-        - Personal details and contact info
-        - Work experience and achievements
-        - Education and skills
-        - Projects and certifications
-        - Target role and job description
-        """)
+        st.markdown(
+        "The assistant will ask you about:\n"
+            "- Personal details and contact info\n"
+            "- Work experience and achievements\n"
+            "- Education and skills\n"
+            "- Projects and certifications\n"
+            "- Target role and job description")
 
         if st.button(
             "💬 Start Chat Interview", type="primary", use_container_width=True
