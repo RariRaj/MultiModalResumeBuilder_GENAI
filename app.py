@@ -932,12 +932,12 @@ with st.sidebar:
     st.markdown("""
     **How it works:**
 
-    1. 💬 Chat with the AI assistant
+    1. Chat with the AI assistant
     2. Answer 10 guided questions
-    3. 🤖 Gemini writes your resume
-    4. 🧠 BiLSTM verifies job category
-    5. 📊 Get score across 10 criteria
-    6. 📥 Download polished PDF
+    3. Gemini writes your resume
+    4. BiLSTM verifies job category
+    5. Get score across 10 criteria
+    6. Download polished PDF
 
     ---
     **Tech Stack:**
