@@ -10,7 +10,7 @@
 #    PDF generation  → ReportLab
 #    Optional input  → pdfplumber (existing resume upload)
 # ═══════════════════════════════════════════════════════════════
-# -*- coding: utf-8 -*-
+
 import os
 import re
 import json
@@ -42,10 +42,6 @@ from reportlab.platypus import (
     HRFlowable,
 )
 from reportlab.lib.enums import TA_LEFT, TA_CENTER, TA_JUSTIFY
-
-# LangChain imports
-
-from langchain_community.chat_message_histories import StreamlitChatMessageHistory
 
 warnings.filterwarnings("ignore")
 os.environ["PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION"] = "python"
@@ -934,19 +930,22 @@ gemini_model = setup_gemini()
 with st.sidebar:
     st.header("📝 AI Resume Builder")
     st.markdown("""
-    st.write("### How It Works:")
-    st.write("1. \U0001F4AC Chat with the AI assistant")
-    st.write("2. \U0001F4CE Upload your existing assets or profile data")
-    st.write("3. \U0001F916 Gemini writes your resume")
-    st.write("4. \U0001F4C4 Download your professional ReportLab PDF")
+    **How it works:**
+
+    1. 💬 Chat with the AI assistant
+    2. Answer 10 guided questions
+    3. 🤖 Gemini writes your resume
+    4. 🧠 BiLSTM verifies job category
+    5. 📊 Get score across 10 criteria
+    6. 📥 Download polished PDF
 
     ---
     **Tech Stack:**
-    - [Chat] LangChain conversation memory
-    - Google Gemini 2.5 Flash
-    - BiLSTM + Custom Attention
-    - ReportLab PDF generation
-    - Streamlit Cloud
+    -  LangChain conversation memory
+    -  Google Gemini 2.5 Flash
+    -  BiLSTM + Custom Attention
+    -  ReportLab PDF generation
+    -  Streamlit Cloud
     """)
 
     st.divider()
@@ -1008,7 +1007,7 @@ if st.session_state.stage == "start":
         """)
 
         if st.button(
-            "[Chat] Start Chat Interview", type="primary", use_container_width=True
+            "💬 Start Chat Interview", type="primary", use_container_width=True
         ):
             # Setup LangChain conversation chain
             chain = setup_langchain_chat()
@@ -1462,9 +1461,9 @@ elif st.session_state.stage == "results":
     # Footer
     st.divider()
     st.caption(
-        "[Chat] LangChain conversation memory  |  "
-        "Google Gemini 2.5 Flash  |  "
-        "BiLSTM + Custom Attention  |  "
-        "ReportLab PDF  |  "
-        "Streamlit Cloud"
+        "💬 LangChain conversation memory  |  "
+        "🤖 Google Gemini 2.5 Flash  |  "
+        "🧠 BiLSTM + Custom Attention  |  "
+        "📄 ReportLab PDF  |  "
+        "🚀 Streamlit Cloud"
     )
