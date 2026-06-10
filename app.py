@@ -1026,28 +1026,26 @@ if st.session_state.stage == "start":
         if st.button(
             "💬 Start Chat Interview", type="primary", use_container_width=True
         ):
-            # Setup LangChain conversation chain
-            chain = setup_langchain_chat()
-            if chain:
-                st.session_state.chain = chain
-                st.session_state.stage = "chat"
-                # First message from bot
-                first_message = (
-                    "Hello! 👋 I'm your AI resume assistant. "
-                    "I'll guide you through 10 quick questions to build "
-                    "your professional resume. Let's start!\n\n"
-                    f"**Question 1/10:** {QUESTIONS[0]}"
-                )
-                st.session_state.chat_history.append(
-                    {"role": "assistant", "content": first_message}
-                )
-                st.rerun()
+            # No LangChain setup required anymore!
+            st.session_state.stage = "chat"
+
+            # Setup first message from the assistant
+            first_message = (
+                "Hello! 👋 I'm your AI resume assistant. "
+                "I'll guide you through 10 quick questions to build "
+                "your professional resume. Let's start!\n\n"
+                f"**Question 1/10:** {QUESTIONS[0]}"
+            )
+            st.session_state.chat_history.append(
+                {"role": "assistant", "content": first_message}
+            )
+            st.rerun()
 
 
 # ══════════════════════════════════════════════════════════════
 #  STAGE 2 — CHAT INTERVIEW
-#  LangChain ConversationChain handles memory.
-#  Streamlit chat_message displays the conversation.
+#  Direct Gemini chat_with_memory helper handles conversation.
+#  Streamlit chat_message displays the history.
 # ══════════════════════════════════════════════════════════════
 
 elif st.session_state.stage == "chat":
@@ -1087,20 +1085,19 @@ elif st.session_state.stage == "chat":
             st.session_state.current_q += 1
             new_q_num = st.session_state.current_q
 
-            # Generate bot response via LangChain
+            # Generate bot response via our native chat_with_memory function
             with st.spinner("Thinking..."):
                 try:
-                    # Send user answer to LangChain chain
-                    # LangChain memory automatically appends to history
                     if new_q_num < total:
-                        # Build prompt with acknowledgement + next question
+                        # Construct a contextual message instructing Gemini how to reply
                         chain_input = (
-                            f"User answered: {user_input}\n"
-                            f"Acknowledge briefly and ask: "
-                            f"{QUESTIONS[new_q_num]} "
-                            f"(Question {new_q_num+1} of {total})"
+                            f"The user answered your previous question with: '{user_input}'. "
+                            f"Acknowledge this answer very briefly and ask the next question: "
+                            f"'{QUESTIONS[new_q_num]}' (Question {new_q_num+1} of {total})"
                         )
-                        bot_response = st.session_state.chain.predict(input=chain_input)
+                        bot_response = chat_with_memory(
+                            gemini_model, chain_input, st.session_state.chat_history
+                        )
                     else:
                         # All questions answered
                         bot_response = (
@@ -1116,7 +1113,7 @@ elif st.session_state.stage == "chat":
                         )
                     else:
                         bot_response = (
-                            f"I have noted your answer. Moving to the next question."
+                            "I have noted your answer. Moving to the next question."
                         )
 
             st.session_state.chat_history.append(
@@ -1135,7 +1132,6 @@ elif st.session_state.stage == "chat":
         if st.button("🚀 Generate My Resume", type="primary", use_container_width=True):
             st.session_state.stage = "generating"
             st.rerun()
-
 
 # ══════════════════════════════════════════════════════════════
 #  STAGE 3 — GENERATE RESUME + CLASSIFY + SCORE + PDF
