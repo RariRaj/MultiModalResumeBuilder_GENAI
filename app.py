@@ -44,10 +44,8 @@ from reportlab.platypus import (
 from reportlab.lib.enums import TA_LEFT, TA_CENTER, TA_JUSTIFY
 
 # LangChain imports
-from langchain_google_genai import ChatGoogleGenerativeAI
+
 from langchain_community.chat_message_histories import StreamlitChatMessageHistory
-from langchain.memory import ConversationBufferMemory
-from langchain.prompts import PromptTemplate
 
 warnings.filterwarnings("ignore")
 os.environ["PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION"] = "python"
@@ -80,49 +78,47 @@ def setup_gemini():
     return genai.GenerativeModel("gemini-2.5-flash")
 
 
-def setup_langchain_chat() -> ConversationChain:
+def chat_with_memory(gemini_model, user_message: str,
+                     chat_history: list) -> str:
     """
-    Setup LangChain ConversationChain with Gemini and memory.
+    Send a message to Gemini with full conversation history.
 
-    LangChain memory keeps the full chat history so the bot
-    remembers every answer the user gave throughout the session.
-    Without memory, each message would be independent.
+    How memory works WITHOUT LangChain:
+    - We store every message in st.session_state.chat_history
+    - Every API call includes the FULL history as context
+    - Gemini reads all previous Q&A and responds accordingly
+    - This is identical to what LangChain was doing internally
+
+    Parameters:
+        gemini_model : Gemini GenerativeModel instance
+        user_message : the current user input string
+        chat_history : list of {role, content} dicts — full history
+
+    Returns:
+        str — Gemini's response
     """
-    api_key = get_api_key()
-    if not api_key:
-        return None
 
-    # LangChain wrapper around Gemini
-    llm = ChatGoogleGenerativeAI(
-        model="gemini-2.5-flash",
-        google_api_key=api_key,
-        temperature=0.7,
-        convert_system_message_to_human=True,
-    )
+    # Build conversation history as a single context string
+    # Format: "User: ... \nAssistant: ... \nUser: ..."
+    history_text = ""
+    for msg in chat_history:
+        role    = "User" if msg["role"] == "user" else "Assistant"
+        content = msg["content"]
+        history_text += f"{role}: {content}\n\n"
 
-    # ConversationBufferMemory stores every message in full
-    # So when user answers Q5, the bot remembers answers 1-4
-    memory = ConversationBufferMemory(memory_key="history", return_messages=True)
-
-    # System prompt that defines the bot's personality
-    prompt = PromptTemplate(
-        input_variables=["history", "input"],
-        template="""You are a professional resume writing assistant.
+    # Full prompt = system instruction + history + new message
+    full_prompt = f"""You are a professional resume writing assistant.
 Your job is to collect information from the user through a friendly
 conversation to build their resume.
 
 Ask ONE question at a time. Be warm, encouraging, and professional.
-When the user answers, acknowledge their answer briefly and ask the next question.
+When the user answers, acknowledge their answer briefly and ask
+the next question.
 
-Conversation history:
-{history}
+Previous conversation:
+{history_text}
 
-User: {input}
-Assistant:""",
-    )
-
-    chain = ConversationChain(llm=llm, memory=memory, prompt=prompt, verbose=False)
-    return chain
+User: {user_message}
 
 
 # ══════════════════════════════════════════════════════════════
