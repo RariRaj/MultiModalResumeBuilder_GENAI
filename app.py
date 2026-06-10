@@ -945,7 +945,7 @@ with st.sidebar:
 
     ---
     **Tech Stack:**
-    - 💬 LangChain conversation memory
+    - [Chat] LangChain conversation memory
     - 🤖 Google Gemini 2.5 Flash
     - 🧠 BiLSTM + Custom Attention
     - 📄 ReportLab PDF generation
