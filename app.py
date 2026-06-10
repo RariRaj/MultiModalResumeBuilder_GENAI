@@ -597,7 +597,7 @@ def generate_pdf(resume_data: dict) -> bytes:
     """
     Generate a professional PDF resume using ReportLab.
 
-    ReportLab builds PDFs from a 'story' — a list of elements
+    ReportLab builds PDFs from a 'story' -- a list of elements
     (Paragraphs, Tables, Spacers, Lines) stacked top to bottom.
     Each element is a 'Flowable' that ReportLab positions automatically.
 
@@ -605,7 +605,7 @@ def generate_pdf(resume_data: dict) -> bytes:
         resume_data : dict with structured resume sections
 
     Returns:
-        bytes — the PDF file as bytes (for st.download_button)
+        bytes -- the PDF file as bytes (for st.download_button)
     """
     buffer = BytesIO()  # write to memory, not disk
 
