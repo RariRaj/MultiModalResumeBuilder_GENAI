@@ -935,18 +935,18 @@ with st.sidebar:
     st.header("📝 AI Resume Builder")
     st.markdown("""
     st.write("### How It Works:")
-st.write("1. \U0001F4AC Chat with the AI assistant")
-st.write("2. \U0001F4CE Upload your existing assets or profile data")
-st.write("3. \U0001F916 Gemini writes your resume")
-st.write("4. \U0001F4C4 Download your professional ReportLab PDF")
+    st.write("1. \U0001F4AC Chat with the AI assistant")
+    st.write("2. \U0001F4CE Upload your existing assets or profile data")
+    st.write("3. \U0001F916 Gemini writes your resume")
+    st.write("4. \U0001F4C4 Download your professional ReportLab PDF")
 
     ---
     **Tech Stack:**
     - [Chat] LangChain conversation memory
-    - 🤖 Google Gemini 2.5 Flash
-    - 🧠 BiLSTM + Custom Attention
-    - 📄 ReportLab PDF generation
-    - 🚀 Streamlit Cloud
+    - Google Gemini 2.5 Flash
+    - BiLSTM + Custom Attention
+    - ReportLab PDF generation
+    - Streamlit Cloud
     """)
 
     st.divider()
@@ -1463,8 +1463,8 @@ elif st.session_state.stage == "results":
     st.divider()
     st.caption(
         "[Chat] LangChain conversation memory  |  "
-        "🤖 Google Gemini 2.5 Flash  |  "
-        "🧠 BiLSTM + Custom Attention  |  "
-        "📄 ReportLab PDF  |  "
-        "🚀 Streamlit Cloud"
+        "Google Gemini 2.5 Flash  |  "
+        "BiLSTM + Custom Attention  |  "
+        "ReportLab PDF  |  "
+        "Streamlit Cloud"
     )
