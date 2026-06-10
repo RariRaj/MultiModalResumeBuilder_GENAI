@@ -8,5 +8,6 @@ pdfplumber
 google-generativeai
 langchain
 langchain-google-genai
+langchain-community
 reportlab
 python-dotenv

@@ -45,8 +45,8 @@ from reportlab.lib.enums import TA_LEFT, TA_CENTER, TA_JUSTIFY
 
 # LangChain imports
 from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_community.chat_message_histories import StreamlitChatMessageHistory
 from langchain.memory import ConversationBufferMemory
-from langchain.chains import ConversationChain
 from langchain.prompts import PromptTemplate
 
 warnings.filterwarnings("ignore")
